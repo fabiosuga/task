@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.mvn
+.gen_nocqrs
+.get_cqrs
+.java_code_generator_sem_cqrs_modificado..py
+.jpa_to_hexagonal_cqrs_corrigido.py
+__pycache__/
+mvnw
+mvnw.cmd
