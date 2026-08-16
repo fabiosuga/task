@@ -1,0 +1,8 @@
+CREATE SCHEMA IF NOT EXISTS task;
+
+CREATE TABLE task.tb_task (
+    id UUID PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR(500) NOT NULL,
+    completed BOOLEAN NOT NULL DEFAULT FALSE
+);  

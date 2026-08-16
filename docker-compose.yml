@@ -1,0 +1,46 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: task-postgres
+
+    environment:
+      POSTGRES_DB: task
+      POSTGRES_USER: sa_task
+      POSTGRES_PASSWORD: tks
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sa_task -d task"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: task-app
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task
+      SPRING_DATASOURCE_USERNAME: sa_task
+      SPRING_DATASOURCE_PASSWORD: tks
+
+    ports:
+      - "8080:8080"
+
+
+volumes:
+  postgres_data:
