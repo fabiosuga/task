@@ -1,12 +1,17 @@
 package br.com.suga.task.infrastructure.out.persistence;
 
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
-import br.com.suga.task.domain.model.Task;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 import br.com.suga.task.domain.repository.TaskFilter;
 
-public interface TaskJpaRepository extends JpaRepository<Task, String> {
+@ApplicationScoped
+public class TaskJpaRepository implements PanacheRepositoryBase<TaskJpa, String> {
 
-    List<Task> list(TaskFilter filter);
+    public List<TaskJpa> list(TaskFilter filter) {
+        // No Panache, métodos customizados não são gerados automaticamente.
+        // Você implementará sua query aqui (ex: find("title like ?1", "%" + filter.title() + "%").list())
+        return List.of();
+    }
 
 }

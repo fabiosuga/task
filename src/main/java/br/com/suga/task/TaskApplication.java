@@ -1,13 +1,13 @@
 package br.com.suga.task;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import io.quarkus.runtime.Quarkus;
+import io.quarkus.runtime.annotations.QuarkusMain;
 
-@SpringBootApplication
+@QuarkusMain
 public class TaskApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TaskApplication.class, args);
+	public static void main(String... args) {
+		Quarkus.run(args);
 	}
 
 }

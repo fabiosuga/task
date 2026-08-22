@@ -1,17 +1,17 @@
 package br.com.suga.task.infrastructure.in.rest;
 
 import java.util.List;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.ws.rs.BeanParam;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import br.com.suga.task.application.usecase.delete.DeleteTaskUseCase;
 import br.com.suga.task.application.usecase.find.FindTaskUseCase;
 import br.com.suga.task.application.usecase.insert.InsertTaskInput;
@@ -23,8 +23,9 @@ import br.com.suga.task.application.usecase.update.UpdateTaskInput;
 import br.com.suga.task.application.usecase.update.UpdateTaskUseCase;
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/tasks")
+@Path("/tasks")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class TaskResource {
     
     private final InsertTaskUseCase insertTaskUseCase;
@@ -47,8 +48,8 @@ public class TaskResource {
         this.deleteTaskUseCase = deleteTaskUseCase;
     }
 
-    @PostMapping
-    public TaskResponse insert(@Valid @RequestBody InsertTaskRequest request) {
+    @POST
+    public TaskResponse insert(@Valid InsertTaskRequest request) {
         
         InsertTaskInput input = new InsertTaskInput(
                 request.title(),
@@ -59,21 +60,22 @@ public class TaskResource {
         return insertTaskUseCase.execute(input);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TaskResponse> find(@PathVariable String id) {
+    @GET
+    @Path("/{id}")
+    public Response find(@PathParam("id") String id) {
 
         TaskResponse tr = findTaskUseCase.execute(id);
 
         if (tr == null) {
-            return ResponseEntity.notFound().build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return ResponseEntity.ok(tr);
+        return Response.ok(tr).build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<TaskResponse>> list(
-            @Valid FilterTaskRequest request) {
+    @GET
+    public Response list(
+            @Valid @BeanParam FilterTaskRequest request) {
         
         FilterTaskInput input = new FilterTaskInput(
                 request.id(),
@@ -85,16 +87,17 @@ public class TaskResource {
         List<TaskResponse> trList = listTaskUseCase.execute(input);
 
         if (trList == null || trList.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return Response.noContent().build();
         }
 
-        return ResponseEntity.ok(trList);
+        return Response.ok(trList).build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TaskResponse> update(
-            @PathVariable String id,
-            @Valid @RequestBody UpdateTaskRequest request) {
+    @PUT
+    @Path("/{id}")
+    public Response update(
+            @PathParam("id") String id,
+            @Valid UpdateTaskRequest request) {
 
         System.out.println("================================= RESOURCE UPDATE =================================");
         System.out.println(String.format("title: %s, description: %s", request.title(), request.description()));
@@ -109,15 +112,15 @@ public class TaskResource {
         TaskResponse tr = updateTaskUseCase.execute(input);
 
         if (tr == null) {
-            return ResponseEntity.notFound().build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return ResponseEntity.ok(tr);
+        return Response.ok(tr).build();
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable String id) {
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") String id) {
         deleteTaskUseCase.execute(id);
     }
 

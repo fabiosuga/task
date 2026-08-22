@@ -2,12 +2,12 @@ package br.com.suga.task.infrastructure.out.persistence;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.springframework.stereotype.Repository;
+import jakarta.enterprise.context.ApplicationScoped;
 import br.com.suga.task.domain.model.Task;
 import br.com.suga.task.domain.repository.TaskFilter;
 import br.com.suga.task.domain.repository.TaskRepository;
 
-@Repository
+@ApplicationScoped
 public class TaskListAdapter implements TaskRepository {
 
     private final List<Task> tasks = new CopyOnWriteArrayList<>();

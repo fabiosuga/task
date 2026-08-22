@@ -17,7 +17,8 @@ public class ListTaskUseCase implements UseCaseInterface<FilterTaskInput, List<T
     private StorageMode storageMode;
     private TaskMapper taskMapper;
 
-    public ListTaskUseCase() {
+    public ListTaskUseCase(TaskRepositoryProvider repositoryProvider) {
+        this.repositoryProvider = repositoryProvider;
         taskMapper = new TaskMapper();
         storageMode = StorageMode.LIST;
     }

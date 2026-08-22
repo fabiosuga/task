@@ -34,9 +34,9 @@ services:
         condition: service_healthy
 
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task
-      SPRING_DATASOURCE_USERNAME: sa_task
-      SPRING_DATASOURCE_PASSWORD: tks
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/task
+      QUARKUS_DATASOURCE_USERNAME: sa_task
+      QUARKUS_DATASOURCE_PASSWORD: tks
 
     ports:
       - "8080:8080"

@@ -13,7 +13,8 @@ public class UpdateTaskUseCase implements UseCaseInterface<UpdateTaskInput, Task
     private StorageMode storageMode;
     private TaskMapper taskMapper;
     
-    public UpdateTaskUseCase() {
+    public UpdateTaskUseCase(TaskRepositoryProvider repositoryProvider) {
+        this.repositoryProvider = repositoryProvider;
         taskMapper = new TaskMapper();
         storageMode = StorageMode.LIST;
     }

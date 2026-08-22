@@ -13,9 +13,10 @@ public class FindTaskUseCase implements UseCaseInterface<String, TaskResponse> {
     private StorageMode storageMode;
     private TaskMapper taskMapper;
 
-    public FindTaskUseCase() {
-        taskMapper = new TaskMapper();
-        storageMode = StorageMode.LIST;
+    public FindTaskUseCase(TaskRepositoryProvider repositoryProvider) {
+        this.repositoryProvider = repositoryProvider;
+        this.taskMapper = new TaskMapper();
+        this.storageMode = StorageMode.LIST;
     }
 
     @Override

@@ -9,7 +9,8 @@ public class DeleteTaskUseCase implements UseCaseInterface<String, Void> {
     private TaskRepositoryProvider repositoryProvider;
     private StorageMode storageMode;
 
-    public DeleteTaskUseCase() {
+    public DeleteTaskUseCase(TaskRepositoryProvider repositoryProvider) {
+        this.repositoryProvider = repositoryProvider;
         storageMode = StorageMode.LIST;
     }
 

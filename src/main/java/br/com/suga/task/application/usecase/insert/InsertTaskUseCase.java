@@ -14,7 +14,8 @@ public class InsertTaskUseCase implements UseCaseInterface<InsertTaskInput, Task
     private TaskMapper taskMapper;
     private TaskRepositoryProvider repositoryProvider;
 
-    public InsertTaskUseCase() {
+    public InsertTaskUseCase(TaskRepositoryProvider repositoryProvider) {
+        this.repositoryProvider = repositoryProvider;
         taskMapper = new TaskMapper();
         
         // For now, we are using LIST as the default storage mode for inserting tasks.
